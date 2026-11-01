@@ -33,7 +33,7 @@ export function MotionManager() {
         gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
           if (!belowFold(el)) return;
           gsap.from(el, {
-            autoAlpha: 0,
+            opacity: 0,
             y: 36,
             duration: 1.1,
             ease: "expo.out",
@@ -44,7 +44,7 @@ export function MotionManager() {
         gsap.utils.toArray<HTMLElement>("[data-reveal-group]").forEach((group) => {
           if (!belowFold(group)) return;
           gsap.from(group.children, {
-            autoAlpha: 0,
+            opacity: 0,
             y: 28,
             duration: 1,
             ease: "expo.out",
@@ -90,6 +90,15 @@ export function MotionManager() {
           );
         });
       });
+
+      // Keyboard users tabbing ahead of the scroll position must never land on faded content.
+      const onFocus = (e: FocusEvent) => {
+        const host = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-reveal], [data-reveal-group] > *");
+        if (host) gsap.set(host, { opacity: 1, y: 0 });
+      };
+      document.addEventListener("focusin", onFocus);
+      const prevRevert = ctx;
+      ctx = { revert: () => { document.removeEventListener("focusin", onFocus); prevRevert?.revert(); } };
 
       // Images/fonts can change layout after load; keep trigger positions honest.
       requestAnimationFrame(() => ScrollTrigger.refresh());
