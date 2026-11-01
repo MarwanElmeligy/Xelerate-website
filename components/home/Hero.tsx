@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/Button";
 import { site } from "@/lib/site";
-import { HeroGeometry } from "./HeroGeometry";
+import { HeroGeometryLoader } from "./HeroGeometryLoader";
 
 const outcomes = [
   { k: "Financial visibility", v: "One real-time ledger across entities and currencies" },
@@ -29,7 +29,7 @@ export function Hero() {
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink-950 to-transparent" />
         </div>
         <div className="absolute inset-0 -z-10 hidden md:block">
-          <HeroGeometry />
+          <HeroGeometryLoader />
         </div>
 
         <div className="container-x flex flex-1 flex-col justify-center pb-10 pt-32 md:pt-40">
